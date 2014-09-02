@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+	<head> 
+		<link rel="stylesheet" href="style.css" />
+
+		<script src = "http://code.jquery.com/jquery-2.1.0.min.js"></script>
+		<script src = "js/gw2_api.js"></script>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+		<title>WvW Overlay</title>
+	</head>
+
+	<body>
+		<div id="header" onmousedown="dragMove();">
+			<h1>WvW Overlay!</h1>
+		</div>
+		<div id = "worldChoice">
+			<select name = "world" id = "gw2_world_list">
+			</select><br/><br/>
+			
+		</div>
+		<div id = "testSpace"></div>
+		<div>
+			<button id="close" onclick="closeWindow();">Close</button>
+			<button id="testWorldNumMatch" onclick="selectWorld();">Select World</button>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,201 @@
+﻿html {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+	background: rgba(240, 200, 255, 0.0);
+}
+
+.icon{
+	position: absolute;
+}
+.icon_img{
+	width: 150%;
+	height: 150%;
+}
+.icon_img_sm{
+	width: 125%;
+	height: 125%;
+}
+
+
+
+
+#container{
+	-webkit-transform: scale(0.8);
+	-webkit-transform-origin: left top;
+}
+
+#worldSelector{
+	position: absolute;
+}
+
+#close_onmap{
+	position: absolute;
+	left: 625px
+}
+
+#header {
+	width: 675px;
+	text-align: center;
+	padding: 3px;
+	background: rgb(200, 54, 54);
+	background: rgba(0,0,0, 0.01);
+}
+
+#objectiveNo1{
+	top: 255px;
+	left: 425px;
+}
+#objectiveNo2{
+	top: 635px;
+	left: 620px;
+}
+#objectiveNo3{
+	top: 640px;
+	left: 120px;
+}
+#objectiveNo4{
+	top: 710px;
+	left: 285px;
+}
+#objectiveNo5{
+	top: 265px;
+	left: 535px;
+}
+#objectiveNo6{
+	top: 220px;
+	left: 190px;
+}
+#objectiveNo7{
+	top: 725px;
+	left: 485px;
+}
+#objectiveNo8{
+	top: 450px;
+	left: 620px;
+}
+#objectiveNo9{
+	top: 485px;
+	left: 385px;
+}
+#objectiveNo10{
+	top: 460px;
+	left: 140px;
+}
+#objectiveNo11{
+	top: 550px;
+	left: 90px;
+}
+#objectiveNo12{
+	top: 480px;
+	left: 220px;
+}
+#objectiveNo13{
+	top: 680px;
+	left: 190px;
+}
+#objectiveNo14{
+	top: 610px;
+	left: 300px;
+}
+#objectiveNo15{
+	top: 705px;
+	left: 580px;
+}
+#objectiveNo16{
+	top: 650px;
+	left: 450px;
+}
+#objectiveNo17{
+	top: 220px;
+	left: 295px;
+}
+#objectiveNo18{
+	top: 350px;
+	left: 285px;
+}
+#objectiveNo19{
+	top: 310px;
+	left: 490px;
+}
+#objectiveNo20{
+	top: 220px;
+	left: 490px;
+}
+#objectiveNo21{
+	top: 485px;
+	left: 545px;
+}
+#objectiveNo22{
+	top: 540px;
+	left: 660px;
+}
+#objectiveNo23, #objectiveNo37, #objectiveNo46{
+	top: 445px;
+	left: 335px;
+}
+#objectiveNo24, #objectiveNo34, #objectiveNo43{
+	top: 850px;
+	left: 350px;
+}
+#objectiveNo25, #objectiveNo35, #objectiveNo45{
+	top: 700px;
+	left: 250px;
+}
+#objectiveNo26, #objectiveNo36, #objectiveNo42{
+	top: 685px;
+	left: 455px;
+}
+#objectiveNo27, #objectiveNo33, #objectiveNo44{
+	top: 575px;
+	left: 80px;
+}
+#objectiveNo28, #objectiveNo40, #objectiveNo57{
+	top: 360px;
+	left: 475px;
+}
+#objectiveNo29, #objectiveNo39, #objectiveNo56{
+	top: 145px;
+	left: 337px;
+} 
+#objectiveNo30, #objectiveNo38, #objectiveNo47{
+	top: 390px;
+	left: 125px;
+}
+#objectiveNo31, #objectiveNo32, #objectiveNo41{
+	top:560px;
+	left: 630px;
+}
+#objectiveNo58, #objectiveNo52, #objectiveNo48{
+	top:350px;
+	left:200px;
+}
+#objectiveNo59, #objectiveNo53, #objectiveNo49{
+	top:700px;
+	left: 125px;
+}
+#objectiveNo60, #objectiveNo51, #objectiveNo54{
+	top:390px;
+	left:580px;
+}
+#objectiveNo61, #objectiveNo50, #objectiveNo55{
+	top:710px;
+	left:575px;
+}
+#objectiveNo67, #objectiveNo66, #objectiveNo72{
+	top:'CARVERS ASCENT';
+	left:;
+}
+#objectiveNo68, #objectiveNo65, #objectiveNo73{
+	top:'ORCHARD OVERLOOK';
+}
+#objectiveNo69, #objectiveNo64, #objectiveNo74{
+	top:'BAUERs ESTATE';
+}
+#objectiveNo70, #objectiveNo63, #objectiveNo75{
+	top:'BATTLES HOLLOW';
+}
+#objectiveNo71, #objectiveNo62, #objectiveNo76{
+	top:'TEMPLE OF LOST PRAYERS';
+}
+

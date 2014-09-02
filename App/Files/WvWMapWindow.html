@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+	<head> 
+		<link rel="stylesheet" href="style.css" />
+		<script src = "http://code.jquery.com/jquery-2.1.0.min.js"></script>
+		<script src = "js/gw2_api.js"></script>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type", "image/png">
+		<title>WvW Map</title>
+		
+	</head>
+
+	<body>
+		
+		<div id = "container">
+			<div id="header" onmousedown="dragMove();">
+				<h1>WvW Overlay!</h1>
+			</div>
+			
+			<div id="worldSelector">
+				<select name="map" id="map_list">
+					<option selected disabled>Choose Map</option>
+					<option value="map_eternalbg">Eternal Battleground</option>
+					<option value="map_borderland_red">Red Borderlands</option>
+					<option value="map_borderland_blue">Blue Borderlands</option>
+					<option value="map_borderland_green">Green Borderlands</option>
+				</select>
+			</div>
+			<button id="close_onmap" onclick="closeWindow();">Close</button>
+			<div id="map"></div>
+			<div id="worldPoints"></div>
+
+		</div>
+		
+	</body>
+</html>
