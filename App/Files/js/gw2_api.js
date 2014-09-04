@@ -152,10 +152,12 @@ $(document).ready(function(){
 		changeMap(curMap);
 	});
 	
+	//TODO: add functionality of being able to set the upgrades for the objectives
 	$('#worldPoints').delegate(".icon_img", "click", function(){
 		alert("CLICKED ON ICON: " + $(this).closest('div').attr('id'));
 	});
 	
+	//TODO: add functionality to add a scouting point on map. 
 	$('#map').delegate("img", "click", function(){
 		alert("CLICKED ON MAP @: " + event.pageX + ", " + event.pageY);
 	});
