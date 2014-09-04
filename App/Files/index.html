@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
-<html>
+<html  onmousedown="dragMove();">
 	<head> 
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="indexStyle.css" />
 
 		<script src = "http://code.jquery.com/jquery-2.1.0.min.js"></script>
 		<script src = "js/gw2_api.js"></script>
@@ -10,18 +10,16 @@
 	</head>
 
 	<body>
-		<div id="header" onmousedown="dragMove();">
-			<h1>WvW Overlay!</h1>
-		</div>
-		<div id = "worldChoice">
-			<select name = "world" id = "gw2_world_list">
-			</select><br/><br/>
-			
-		</div>
-		<div id = "testSpace"></div>
-		<div>
-			<button id="close" onclick="closeWindow();">Close</button>
-			<button id="testWorldNumMatch" onclick="selectWorld();">Select World</button>
+		<div id="container">			
+			<div id = "worldChoice">
+				<select name = "world" id = "gw2_world_list"></select><br/><br/>
+			</div>
+			<div id = "testSpace"></div>
+			<div id="buttons">
+				<a href = "#" onclick="selectWorld(); return false;">Select World</a>
+				<a href = "#" onclick="closeWindow(); return false;">Close</a>
+				
+			</div>
 		</div>
 	</body>
 </html>

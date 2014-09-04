@@ -12,13 +12,10 @@
 	width: 150%;
 	height: 150%;
 }
-.icon_img_sm{
-	width: 125%;
-	height: 125%;
+.icon_img_small{
+	width: 34%;
+	height: 34%;
 }
-
-
-
 
 #container{
 	-webkit-transform: scale(0.8);
@@ -31,7 +28,13 @@
 
 #close_onmap{
 	position: absolute;
-	left: 625px
+	left: 700px;
+	padding: 5px 10px;
+	background-color: #F0F0F0;
+	color: #666;
+	margin: 3px;
+	text-decoration: none;
+	clear: both;
 }
 
 #header {
@@ -128,7 +131,7 @@
 }
 #objectiveNo22{
 	top: 540px;
-	left: 660px;
+	left: 661px;
 }
 #objectiveNo23, #objectiveNo37, #objectiveNo46{
 	top: 445px;
@@ -183,19 +186,23 @@
 	left:575px;
 }
 #objectiveNo67, #objectiveNo66, #objectiveNo72{
-	top:'CARVERS ASCENT';
-	left:;
+	top:620px;
+	left: 410px;
 }
 #objectiveNo68, #objectiveNo65, #objectiveNo73{
-	top:'ORCHARD OVERLOOK';
+	top:525px;
+	left: 400px;
 }
 #objectiveNo69, #objectiveNo64, #objectiveNo74{
-	top:'BAUERs ESTATE';
+	top:515px;
+	left: 280px;
 }
 #objectiveNo70, #objectiveNo63, #objectiveNo75{
-	top:'BATTLES HOLLOW';
+	top: 610px;
+	left: 255px;
 }
 #objectiveNo71, #objectiveNo62, #objectiveNo76{
-	top:'TEMPLE OF LOST PRAYERS';
+	top:665px;
+	left:335px;
 }
 

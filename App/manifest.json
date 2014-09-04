@@ -16,23 +16,17 @@
 			"MainWindow":{
 					"file":"Files/index.html",
 					"transparent":true,
-					"resizable":true,
-					"size":{"width":400, "height":300},
+					"resizable":false,
+					"size":{"width":200, "height":200},
 					"min_size":{"width":200, "height":200},
 					"max_size":{"width":600, "height":500}
 				},
-			"SubWindow":{
-					"file":"Files/subwindow.html",
-					"transparent":false,
-					"resizable":true,
-					"size":{"width":400, "height":300},
-					"in_game_only":true
-				},
+			
 			"WvWMapWindow":{
 					"file":"Files/WvWMapWindow.html",
 					"transparent":true,
 					"resizable":false,
-					"size":{"width":681, "height":877},
+					"size":{"width":877, "height":877},
 					"in_game_only":false
 				}
 		}

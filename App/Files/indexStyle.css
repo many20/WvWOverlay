@@ -1,0 +1,27 @@
+﻿html {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+	background: rgba(240, 240, 240, 0.01);
+}
+
+body{
+	height: 200px;
+	width: 200px;
+}
+
+#container{
+	margin-top: auto;
+	margin-bottom:auto;
+	padding-top: 50px;
+}
+
+#buttons > a{
+	
+	padding: 5px 10px;
+	background-color: #F0F0F0;
+	color: #666;
+	margin: 3px;
+	text-decoration: none;
+	clear: both;
+}
