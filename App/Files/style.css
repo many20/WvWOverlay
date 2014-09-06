@@ -1,4 +1,6 @@
-﻿html {
+﻿@import "http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css";
+
+html {
 	overflow: hidden;
 	height: 100%;
 	width: 100%;
@@ -18,8 +20,16 @@
 }
 
 #container{
-	-webkit-transform: scale(0.8);
+	-webkit-transform: scale(1);
 	-webkit-transform-origin: left top;
+}
+
+.hidden{
+	display: none;
+}
+
+.visible{
+	display: block;
 }
 
 #worldSelector{
@@ -206,3 +216,66 @@
 	left:335px;
 }
 
+
+/*CSS FOR MAP CLICK MENU*/
+.circle a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  position: absolute;
+  text-align: center;
+
+}
+
+.circle a:hover {
+  color: #eef;
+  /*create background gradient to highlight hover*/
+}
+
+.menu-button {
+  position: absolute;
+  top: calc(-7px);
+  left: calc(-7px);
+  text-decoration: none;
+  text-align: center;
+  color: #dde;
+  border-radius: 50%;
+  display: block;
+  padding: 10px;
+}
+.menu-button:hover {
+  color: #eef;
+}
+
+#circular-menu {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;	
+  position: absolute;
+  top: 100px;
+  left: 100px;
+}
+
+.circle {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  opacity: 0;
+  top: -26px;
+  left: -28px;
+  
+  -webkit-transform: scale(0);
+  -webkit-transition: all 0.4s ease-out;
+
+}
+
+.open.circle {
+  opacity: 1;
+
+  -webkit-transform: scale(1);
+}

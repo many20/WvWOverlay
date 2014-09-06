@@ -3,6 +3,8 @@ MYAPP.wvw = {
 	currentWorldNumber : "",
 	currentWorldColor : "", 
 	wvwMatchID : "",
+	mouseClickX : "",
+	mouseClickY : "", 
 	objectiveTypes : {
 		1: "Keep",
 		2: "Keep",
@@ -157,20 +159,57 @@ $(document).ready(function(){
 		alert("CLICKED ON ICON: " + $(this).closest('div').attr('id'));
 	});
 	
-	//TODO: add functionality to add a scouting point on map. 
-	$('#map').delegate("img", "click", function(){
-		alert("CLICKED ON MAP @: " + event.pageX + ", " + event.pageY);
+	//calls the mapClick function which will place a scout selector on the map wher eyou clicked.
+	$('#map').delegate("img", "click", function(e){
+		var offset = $(this).offset()
+		MYAPP.wvw.mouseClickX = e.pageX;
+		MYAPP.wvw.mouseClickY = e.pageY;
+		
+		console.log("CLICKED ON MAP @: " + MYAPP.wvw.mouseClickX + ", " + MYAPP.wvw.mouseClickY);
+
+		mapClick("img\/scout.png", MYAPP.wvw.mouseClickX-18, MYAPP.wvw.mouseClickY-18);
+	});
+	
+	//removes a scout icon when you click on it
+	//useful if your map is getting cluttered. 
+	$('#scoutPoints').delegate("img", "click", function(){
+		$(this).remove();
+	});
+	
+	//hids the scout selector when you click on it. 
+	$('#centerSelector').delegate('a', "click", function(){
+		//TODO: change this next line to jQuery, make sure it completes before closing. 
+		document.querySelector('.circle').classList.toggle('open');
+		$("#circular-menu").attr("class", "hidden");
+	});
+	
+	//Next 3 places scout points depending on the one selected
+	//TODO: These are technically links, so call these functions directly
+	$('#enemy1').delegate("a", "click", function(){
+		//TODO place correct colored ENEMY SPOTTED at correct mouse pos
+		placeScoutPoint("img\/scout.png", MYAPP.wvw.mouseClickX-18, MYAPP.wvw.mouseClickX-18);
+	});
+	
+	$('#enemy2').delegate("a", "click", function(){
+		//TODO place correct colored ENEMY SPOTTED at correct mouse pos
+		placeScoutPoint("img\/scout.png", MYAPP.wvw.mouseClickX-18, MYAPP.wvw.mouseClickX-18);
+	});
+	
+	$('#waypoint').delegate("a", "click", function(){
+		//TODO: place waypoint at correct mouse position.
+		placeScoutPoint("img\/scout.png", MYAPP.wvw.mouseClickX-18, MYAPP.wvw.mouseClickX-18);
 	});
 });
 
 //remove old map and add new one when switching maps. 
 var changeMap = function (curMap){
-		//var stopTimer = clearInterval(startTimer);
-		//console.log("stopTimer");
+		
 		if(curMap === 'map_eternalbg'){
 			$('#map').empty();	
 			$('#map').append("<img src = 'img/map_eternal.png' alt = 'EBG MAP'>");
 			localStorage['currentWvWMap'] = curMap;
+			$('#worldPoints').empty();
+			$('#scoutPoints').empty();
 			getAllMatchDetails(localStorage['matchID']);
 			console.log('Center');
 		}
@@ -178,6 +217,8 @@ var changeMap = function (curMap){
 			$('#map').empty();
 			$('#map').append("<img src = 'img/map_borderland.png' alt = 'Borderland Map'>");
 			localStorage['currentWvWMap'] = curMap;		
+			$('#worldPoints').empty();
+			$('#scoutPoints').empty();
 			getAllMatchDetails(localStorage['matchID']);
 			console.log("RedHome");
 		}
@@ -185,6 +226,8 @@ var changeMap = function (curMap){
 			$('#map').empty();
 			$('#map').append("<img src = 'img/map_borderland.png' alt = 'Borderland Map'>");
 			localStorage['currentWvWMap'] = curMap;
+			$('#worldPoints').empty();
+			$('#scoutPoints').empty();
 			getAllMatchDetails(localStorage['matchID']);
 			console.log("BlueHome");
 		}
@@ -192,6 +235,8 @@ var changeMap = function (curMap){
 			$('#map').empty();
 			$('#map').append("<img src = 'img/map_borderland.png' alt = 'Borderland Map'>");
 			localStorage['currentWvWMap'] = curMap;
+			$('#worldPoints').empty();
+			$('#scoutPoints').empty();
 			getAllMatchDetails(localStorage['matchID']);
 			console.log("GreenHome");
 		}
@@ -199,9 +244,8 @@ var changeMap = function (curMap){
 			alert("ERROR: INCORRECT MAP SELECTION");
 		};
 		console.log("Stuff changed. Reset match details.");
-		$('#worldPoints').empty();
 		//Sets the interval in which getAllMatchDetails updates in miliseconds.
-		//Set to 5 seconds for now.  
+		//Set to 5 seconds for now. 
 		var	startTimer = setInterval(function(){getAllMatchDetails(localStorage['matchID'])}, 5000);
 		
 };
@@ -253,17 +297,17 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 				if(matches.wvw_matches[match].red_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
-					MYAPP.wvw.currentWorldColor =  matches.wvw_matches[match].red_world_id;
+					MYAPP.wvw.currentWorldColor =  "red";
 				}
 				else if(matches.wvw_matches[match].blue_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
-					MYAPP.wvw.currentWorldColor =  matches.wvw_matches[match].blue_world_id;
+					MYAPP.wvw.currentWorldColor =  "blue";
 				}
 				else if(matches.wvw_matches[match].green_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
-					MYAPP.wvw.currentWorldColor =  matches.wvw_matches[match].green_world_id;
+					MYAPP.wvw.currentWorldColor =  "green";
 				}
 				else{
 					continue;
@@ -271,6 +315,7 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 			}
 			//Set wvwMatchID
 			localStorage['matchID'] = MYAPP.wvw.wvwMatchID;
+			localStorage['worldColor'] = MYAPP.wvw.currentWorldColor;
 		}
 	});
 };
@@ -284,7 +329,7 @@ var getAllMatchDetails = function(matchID){
 		async : false,
 		url : "https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + matchID,
 		success :  function(currentMatch){
-			openWvWMapWindow(function(){				
+						
 				if(typeof localStorage['currentWvWMap'] === "undefined"){
 					localStorage['currentWvWMap'] = '';
 				}
@@ -310,11 +355,11 @@ var getAllMatchDetails = function(matchID){
 					populatePoints(currentMatch, "Center");
 				}
 				else{
-					alert("Please select a map!");
+					console.log("No map selected");
 				}
-			});
 		}
 	});
+	console.log("All match details");
 };
 
 //iterate through the currentMatch data and find the correct map type. 
@@ -339,6 +384,7 @@ var populatePoints = function(currentMatch, mapType){
 						$('#'+currentElement).remove();
 						appendHTML(objectiveColor, objectiveNo);
 						//TODO: create RI countdown method. 
+						riCountdownTimer(currentElement);
 					}
 				}				
 			}
@@ -347,9 +393,91 @@ var populatePoints = function(currentMatch, mapType){
 };
 
 
+//places a scout selector where you click on the map. 
+var mapClick = function(img, xCord, yCord){
+	//MYAPP.wvw.currentWorldColor = localStorage['worldColor']; 
+	MYAPP.wvw.currentWorldColor = 'red'; //TODO: HARD CODED FOR TESTING ************ CHANGE
+	var curColor = MYAPP.wvw.currentWorldColor;
+	console.log(img + ' placed at:' + xCord + ',' + yCord);
+	//$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+	placeSelector(xCord, yCord, curColor);
+	
+	console.log("My Color: " + curColor);
+};
 
+//when the map is clicked, unhides the a scout selector and moves it to where you clicked.
+//changes context depending on what your world color is. 
+var placeSelector = function(xCord, yCord, curColor){
+	$("#circular-menu").css("top", yCord);
+	$("#circular-menu").css("left", xCord);
+	$("#circular-menu").attr("class", "visible");
+	var items = document.querySelectorAll('.circle a');
+	
+	//****************CHECK THIS *******************//
+	switch(curColor){
+		case "red" : 
+			$("#circular-menu").css("color", "red");
+			$('#enemy1').css("color", "blue");//CHANGE THESE TO CLOSER VALUES
+			$('#enemy2').css("color", "green");
+			break;
+		case "blue" : 
+			$("#circular-menu").css("color", "blue");
+			$('#enemy1').css("color", "red");//CHANGE THESE TO CLOSER VALUES
+			$('#enemy2').css("color", "green");
+			break;
+		case "green" : 
+			$("#circular-menu").css("color", "green");
+			$('#enemy1').css("color", "blue");//CHANGE THESE TO CLOSER VALUES
+			$('#enemy2').css("color", "red");
+			break;	
+		default:
+			break;
+	};
+	for(var i = 0, l = items.length; i < l; i++) {
+	  items[i].style.left = (50 - 35*Math.cos(-0.5 * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
+	  
+	  items[i].style.top = (50 + 35*Math.sin(-0.5 * Math.PI - 2*(1/l)*i*Math.PI)).toFixed(4) + "%";
+	}
+
+	/*document.querySelector('.menu-button').onclick = function(e) {
+		e.preventDefault(); 
+		document.querySelector('.circle').classList.toggle('open');
+	}*/
+		document.querySelector('.circle').classList.toggle('open');//open circle when created. 
+
+};
+
+//places a given image at the last place the mouse was clicked on the map. 
+//TODO: need to set a timer on the scout points to remove them automatically
+var placeScoutPoint = function(img, xCord, yCord){
+	$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+};
+
+
+//Starts the countdown when an objective is flipped
+//Appends the coundown box, then starts counting down from 5 minutes. 
+var riCountdownTimer = function(element){
+	var minutes = 5;
+	var seconds = minutes * 60;
+	$('#' + element).append('<div id="' + element + 'countdown" style="background:rgba(75, 75, 75, 0.75); color:#FFFFFF"></div>');
+	var startCountdown = setInterval(function(){ 
+		seconds -= 1;
+		minutes = seconds/60;
+		formattedSeconds = seconds%60;
+		if(formattedSeconds < 10){formattedSeconds = "0" + formattedSeconds;}
+		$('#' + element + 'countdown').empty();
+		$('#' + element + 'countdown').append(Math.floor(minutes) + ":" + formattedSeconds);
+	}, 1000);
+	
+	var stopCountdown = setTimeout(function(){
+		clearInterval(startCountdown);
+		$('#' + element + 'countdown').remove();
+
+	}, 300000)
+};
+
+//Adds the correct objective icons and colors. 
 var appendHTML = function(objColor, objId){
-
 	if(objId < 62){			 
 		$('#worldPoints').append('<div id ="objectiveNo' + objId
 		+ '" class = "icon"><img src = "img/'+ MYAPP.wvw.objectiveTypes[objId]
@@ -373,7 +501,9 @@ var selectWorld = function(){
 	console.log(MYAPP.wvw.wvwMatchID);
 	console.log(MYAPP.wvw.currentWorldColor);
 	
-	getAllMatchDetails(MYAPP.wvw.wvwMatchID);
+	openWvWMapWindow();
+
+	getAllMatchDetails(localStorage['matchID']);
 	
 };
 
@@ -403,6 +533,14 @@ var closeWindow = function(){
 	});
 };
 
+var minimizeWindow = function(){
+	overwolf.windows.getCurrentWindow(function(result){
+		if (result.status=="success"){
+			overwolf.windows.minimize(result.window.id);
+		};
+	});
+};
+
 //Opens the wvwMapWindow once a server has been selected. 
 var openWvWMapWindow = function(callback){
 	overwolf.windows.obtainDeclaredWindow("WvWMapWindow", function(result){
@@ -420,11 +558,3 @@ var openWvWMapWindow = function(callback){
 		});
 	
 };
-
-/*Object.size = function(obj){
-	var size = 0, key;
-	for (key in obj){
-		if(obj.hasOwnProperty(key))	size++;
-	}
-	return size;
-};*/
