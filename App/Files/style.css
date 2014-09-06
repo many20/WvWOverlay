@@ -19,6 +19,21 @@ html {
 	height: 34%;
 }
 
+.scoutImg{
+	border-radius: 50%;
+	background-color: ;
+	display: block;
+	padding: 3px;
+	height: 17px;
+	width: 17px;
+
+}
+
+.waypoint{
+	text-decoration: none;
+	color: yellow;
+
+}
 #container{
 	-webkit-transform: scale(1);
 	-webkit-transform-origin: left top;
@@ -53,6 +68,18 @@ html {
 	padding: 3px;
 	background: rgb(200, 54, 54);
 	background: rgba(0,0,0, 0.01);
+}
+
+#enemy1green{
+	background-color : #36945F;
+}
+
+#enemy1red{
+	background-color : #B11313;
+}
+
+#enemy1blue{
+	background-color : #4689BD;
 }
 
 #objectiveNo1{
@@ -172,16 +199,16 @@ html {
 	left: 337px;
 } 
 #objectiveNo30, #objectiveNo38, #objectiveNo47{
-	top: 390px;
-	left: 125px;
+	top:350px;
+	left:200px;
 }
 #objectiveNo31, #objectiveNo32, #objectiveNo41{
 	top:560px;
 	left: 630px;
 }
 #objectiveNo58, #objectiveNo52, #objectiveNo48{
-	top:350px;
-	left:200px;
+	top: 390px;
+	left: 125px;
 }
 #objectiveNo59, #objectiveNo53, #objectiveNo49{
 	top:700px;

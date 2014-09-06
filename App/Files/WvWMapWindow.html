@@ -31,14 +31,14 @@
 			<div id="scoutPoints"></div>
 			<div id="circular-menu" class="hidden">
 			  <div class="circle">
-			  	<a href="#" class="fa fa-asterisk" id="waypoint" onclick = "return false"></a>
-				<a href="#" class="fa fa-crosshairs" id="enemy1" onclick = "return false;"></a>
-				<a href="#" class="fa fa-crosshairs" id="enemy2" onclick = "return false;"></a>
+			  	<a href="#" class="fa fa-asterisk" id="waypoint" onclick = "placeWaypoint(); return false;"></a>
+				<a href="#" class="fa fa-crosshairs" id="enemy1" onclick = "placeScoutPointE1(); return false;"></a>
+				<a href="#" class="fa fa-crosshairs" id="enemy2" onclick = "placeScoutPointE2(); return false;"></a>
 				
 				
 			  </div>
 			  
-			  <a href="" class="menu-button fa fa-certificate" id="centerSelector" onclick = "return false"></a>
+			  <a href="" class="menu-button fa fa-certificate" id="centerSelector" onclick = "centerClick(); return false"></a>
 
 			</div>
 		</div>

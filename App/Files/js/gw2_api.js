@@ -2,6 +2,8 @@ var MYAPP = {};
 MYAPP.wvw = {
 	currentWorldNumber : "",
 	currentWorldColor : "", 
+	enemy1Color : "",
+	enemy2Color : "", 
 	wvwMatchID : "",
 	mouseClickX : "",
 	mouseClickY : "", 
@@ -172,7 +174,7 @@ $(document).ready(function(){
 	
 	//removes a scout icon when you click on it
 	//useful if your map is getting cluttered. 
-	$('#scoutPoints').delegate("img", "click", function(){
+	$('#scoutPoints').delegate("div", "click", function(){
 		$(this).remove();
 	});
 	
@@ -183,22 +185,6 @@ $(document).ready(function(){
 		$("#circular-menu").attr("class", "hidden");
 	});
 	
-	//Next 3 places scout points depending on the one selected
-	//TODO: These are technically links, so call these functions directly
-	$('#enemy1').delegate("a", "click", function(){
-		//TODO place correct colored ENEMY SPOTTED at correct mouse pos
-		placeScoutPoint("img\/scout.png", MYAPP.wvw.mouseClickX-18, MYAPP.wvw.mouseClickX-18);
-	});
-	
-	$('#enemy2').delegate("a", "click", function(){
-		//TODO place correct colored ENEMY SPOTTED at correct mouse pos
-		placeScoutPoint("img\/scout.png", MYAPP.wvw.mouseClickX-18, MYAPP.wvw.mouseClickX-18);
-	});
-	
-	$('#waypoint').delegate("a", "click", function(){
-		//TODO: place waypoint at correct mouse position.
-		placeScoutPoint("img\/scout.png", MYAPP.wvw.mouseClickX-18, MYAPP.wvw.mouseClickX-18);
-	});
 });
 
 //remove old map and add new one when switching maps. 
@@ -298,16 +284,22 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
 					MYAPP.wvw.currentWorldColor =  "red";
+					MYAPP.wvw.enemy1Color =  "green";
+					MYAPP.wvw.enemy2Color =  "blue";
 				}
 				else if(matches.wvw_matches[match].blue_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
 					MYAPP.wvw.currentWorldColor =  "blue";
+					MYAPP.wvw.enemy1Color =  "red";
+					MYAPP.wvw.enemy2Color =  "green";				
 				}
 				else if(matches.wvw_matches[match].green_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
 					MYAPP.wvw.currentWorldColor =  "green";
+					MYAPP.wvw.enemy1Color =  "blue";
+					MYAPP.wvw.enemy2Color =  "red";				
 				}
 				else{
 					continue;
@@ -316,6 +308,9 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 			//Set wvwMatchID
 			localStorage['matchID'] = MYAPP.wvw.wvwMatchID;
 			localStorage['worldColor'] = MYAPP.wvw.currentWorldColor;
+			localStorage['e1Color'] = MYAPP.wvw.enemy1Color;
+			localStorage['e2Color'] = MYAPP.wvw.enemy2Color;
+			
 		}
 	});
 };
@@ -395,9 +390,7 @@ var populatePoints = function(currentMatch, mapType){
 
 //places a scout selector where you click on the map. 
 var mapClick = function(img, xCord, yCord){
-	//MYAPP.wvw.currentWorldColor = localStorage['worldColor']; 
-	MYAPP.wvw.currentWorldColor = 'red'; //TODO: HARD CODED FOR TESTING ************ CHANGE
-	var curColor = MYAPP.wvw.currentWorldColor;
+	var curColor = localStorage['worldColor']; 
 	console.log(img + ' placed at:' + xCord + ',' + yCord);
 	//$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
 	placeSelector(xCord, yCord, curColor);
@@ -413,22 +406,21 @@ var placeSelector = function(xCord, yCord, curColor){
 	$("#circular-menu").attr("class", "visible");
 	var items = document.querySelectorAll('.circle a');
 	
-	//****************CHECK THIS *******************//
 	switch(curColor){
 		case "red" : 
-			$("#circular-menu").css("color", "red");
-			$('#enemy1').css("color", "blue");//CHANGE THESE TO CLOSER VALUES
-			$('#enemy2').css("color", "green");
+			$("#circular-menu").css("color", "#B11313");
+			$('#enemy1').css("color", "#4689BD");
+			$('#enemy2').css("color", "#36945F");
 			break;
 		case "blue" : 
-			$("#circular-menu").css("color", "blue");
-			$('#enemy1').css("color", "red");//CHANGE THESE TO CLOSER VALUES
-			$('#enemy2').css("color", "green");
+			$("#circular-menu").css("color", "#4689BD");
+			$('#enemy1').css("color", "#B11313");
+			$('#enemy2').css("color", "#36945F");
 			break;
 		case "green" : 
-			$("#circular-menu").css("color", "green");
-			$('#enemy1').css("color", "blue");//CHANGE THESE TO CLOSER VALUES
-			$('#enemy2').css("color", "red");
+			$("#circular-menu").css("color", "#36945F");
+			$('#enemy1').css("color", "#4689BD");
+			$('#enemy2').css("color", "#B11313");
 			break;	
 		default:
 			break;
@@ -443,16 +435,55 @@ var placeSelector = function(xCord, yCord, curColor){
 		e.preventDefault(); 
 		document.querySelector('.circle').classList.toggle('open');
 	}*/
+		
 		document.querySelector('.circle').classList.toggle('open');//open circle when created. 
 
 };
 
 //places a given image at the last place the mouse was clicked on the map. 
 //TODO: need to set a timer on the scout points to remove them automatically
-var placeScoutPoint = function(img, xCord, yCord){
-	$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+var placeScoutPointE1 = function(){
+	xCord = MYAPP.wvw.mouseClickX-18;
+	yCord = MYAPP.wvw.mouseClickY-18;
+	var enemyColor = localStorage['e1Color'];
+	console.log("Color: " + enemyColor);
+	var img = "img\/scout.png";
+	$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1' + enemyColor + '" style = "top:' + yCord 
+		+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+	$('.circle').toggleClass('open');
+	$("#circular-menu").attr("class", "hidden");
+	
 };
 
+var placeScoutPointE2 = function(){
+	xCord = MYAPP.wvw.mouseClickX-18;
+	yCord = MYAPP.wvw.mouseClickY-18;
+	var enemyColor = localStorage['e2Color'];
+	console.log("Color: " + enemyColor);
+	var img = "img\/scout.png";
+	$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1' + enemyColor + '" style = "top:' + yCord 
+		+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+	$('.circle').toggleClass('open');
+	$("#circular-menu").attr("class", "hidden");
+	
+};
+
+var placeWaypoint = function(){
+	xCord = MYAPP.wvw.mouseClickX-18;
+	yCord = MYAPP.wvw.mouseClickY-18;
+	$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord 
+	+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a></div>');
+	
+	
+	$('.circle').toggleClass('open');
+	$("#circular-menu").attr("class", "hidden");
+	
+};
+
+var centerClick = function(){
+	$('.circle').toggleClass('open');
+	$("#circular-menu").attr("class", "hidden");
+};
 
 //Starts the countdown when an objective is flipped
 //Appends the coundown box, then starts counting down from 5 minutes. 
