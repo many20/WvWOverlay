@@ -9,7 +9,7 @@
 		
 	</head>
 
-	<body>
+	<body onload="load()">
 		
 		<div id = "container">
 			<div id="header" onmousedown="dragMove();">
@@ -42,6 +42,8 @@
 
 			</div>
 		</div>
-		
+		<object id="tsPlugin" type="application/x-overwolfteamspeakplugin">
+			<param name="onload" value="pluginLoaded" />
+		</object>
 	</body>
 </html>

@@ -7,6 +7,8 @@ MYAPP.wvw = {
 	wvwMatchID : "",
 	mouseClickX : "",
 	mouseClickY : "", 
+	channelId: "",
+	serverId: "", 
 	objectiveTypes : {
 		1: "Keep",
 		2: "Keep",
@@ -478,11 +480,41 @@ var placeWaypoint = function(){
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
 	
+	
+	console.log("ServerID: " + MYAPP.wvw.serverId);
+	console.log("ChannelID: " + MYAPP.wvw.channelId);
+	
+	plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
+									, message: "_wp;" + xCord + ";" + yCord}, function(){
+		console.log("Message Sent: WAYPOINT PLACED @: " + xCord + ", " + yCord);
+	});
+	
 };
 
 var centerClick = function(){
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
+};
+
+var messageHandler = function(data){
+	console.log("ReceivedMessage: " + data.message);
+	console.log("From Client Name: " + data.fromClientId + " " + data.fromClientName);
+	
+	if(data.message.charAt(0) === "_"){
+		console.log("Start Handling");
+		var messageArr = data.message.split(";", 3);
+		var pointType = messageArr[0];
+		var xCord = messageArr[1];
+		var yCord = messageArr[2];
+		
+		if(pointType === "_wp"){
+			$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord 
+			+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a></div>');
+		}
+	}
+	else{
+		console.log("Normal Text");
+	}
 };
 
 //Starts the countdown when an objective is flipped
@@ -589,3 +621,70 @@ var openWvWMapWindow = function(callback){
 		});
 	
 };
+
+//THE TEAMSPEAK FUNCTIONALITY (BASIC CODE TAKEN FROM OVERWOLF TEAMSPEAK SAMPLE)
+function tsPlugin(){
+	return document.getElementById('tsPlugin');
+};
+
+plugin = tsPlugin;
+
+function addEvent(obj, name, func){
+	if (obj.attachEvent) {
+		obj.attachEvent("on"+name, func);
+	} else {
+		obj.addEventListener(name, func, false); 
+	}
+}
+        
+function load(){
+
+}
+function pluginLoaded() {
+	alert("Plugin loaded!");
+
+	plugin().addEventListener("onServerStatusChange", function(data) {
+		console.log("onServerStatusChang: ",data);
+	});
+	
+	plugin().addEventListener("onChannelUpdated", function(data){
+		console.log("onChannelUpdated: " ,data);
+	});
+	
+	plugin().addEventListener("onTextMessageReceived", function(data){
+		console.log("Message Received: " + data.message);
+		messageHandler(data);
+	});
+	
+	setTimeout(function() {
+	
+		plugin().init({name: "Overwolf-TeamSpeak-Plugin"}, function(result,servers) {
+		 console.log("result: ",result ,servers);
+			
+		  // no server is connected
+		  if (servers && !servers.activeServerId)  {
+			 plugin().connectToServer( { tab :"currentTab", 
+										label:"ts3 public server", 
+										address :"voice.teamspeak.com", 
+										nickName:"bFox" },
+										function(result,server) {
+			   console.log("start new connection: ",result , server)
+			 });
+		} else {
+		 
+			 plugin().getAllServersInfo(function(errorObject,servers) {
+				console.log("All servers:" ,result , servers);
+				MYAPP.wvw.channelId = servers[0].channelId;
+				MYAPP.wvw.serverId = servers[0].serverId;
+				console.log('ChannelID: ' + MYAPP.wvw.channelId);
+				console.log('ServerID: ' + MYAPP.wvw.serverId);
+			 });
+		 }
+		 
+		
+		});
+		
+	}, 500);
+
+	
+}
