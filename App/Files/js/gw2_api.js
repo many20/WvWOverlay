@@ -411,8 +411,8 @@ var placeSelector = function(xCord, yCord, curColor){
 	switch(curColor){
 		case "red" : 
 			$("#circular-menu").css("color", "#B11313");
-			$('#enemy1').css("color", "#4689BD");
-			$('#enemy2').css("color", "#36945F");
+			$('#enemy1').css("color", "#36945F");
+			$('#enemy2').css("color", "#4689BD");
 			break;
 		case "blue" : 
 			$("#circular-menu").css("color", "#4689BD");
@@ -455,6 +455,8 @@ var placeScoutPointE1 = function(){
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
 	
+	sendTSMessage(enemyColor+"Scout",xCord,yCord);
+	
 };
 
 var placeScoutPointE2 = function(){
@@ -467,6 +469,9 @@ var placeScoutPointE2 = function(){
 		+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
+	
+	sendTSMessage(enemyColor+"Scout",xCord,yCord);
+
 	
 };
 
@@ -484,11 +489,38 @@ var placeWaypoint = function(){
 	console.log("ServerID: " + MYAPP.wvw.serverId);
 	console.log("ChannelID: " + MYAPP.wvw.channelId);
 	
-	plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
-									, message: "_wp;" + xCord + ";" + yCord}, function(){
-		console.log("Message Sent: WAYPOINT PLACED @: " + xCord + ", " + yCord);
-	});
+	sendTSMessage("_wp",xCord,yCord);
 	
+};
+
+var sendTSMessage = function(type, xCord, yCord){
+	if(type === "redScout"){
+		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
+									, message: "_rs;" + xCord + ";" + yCord}, function(){
+		console.log("Message Sent: Red Scout PLACED @: " + xCord + ", " + yCord);
+		});
+	}
+	else if(type === "blueScout"){
+		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
+									, message: "_bs;" + xCord + ";" + yCord}, function(){
+		console.log("Message Sent: Red Scout PLACED @: " + xCord + ", " + yCord);
+		});
+	}
+	else if(type === "greenScout"){
+		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
+									, message: "_gs;" + xCord + ";" + yCord}, function(){
+		console.log("Message Sent: Red Scout PLACED @: " + xCord + ", " + yCord);
+		});
+	}
+	else if(type === "_wp"){
+		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
+									, message: "_wp;" + xCord + ";" + yCord}, function(){
+		console.log("Message Sent: Red Scout PLACED @: " + xCord + ", " + yCord);
+		});
+	}
+	else{
+		console.log("ERROR: UNKNOWN TS MESSAGE TYPE: " + type);
+	}
 };
 
 var centerClick = function(){
@@ -510,6 +542,21 @@ var messageHandler = function(data){
 		if(pointType === "_wp"){
 			$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord 
 			+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a></div>');
+		}
+		else if(pointType === "_rs"){
+			var img = "img\/scout.png";
+			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1Red" style = "top:' + yCord 
+			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+		}
+		else if(pointType === "_bs"){
+			var img = "img\/scout.png";
+			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1Blue" style = "top:' + yCord 
+			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+		}
+		else if(pointType === "_gs"){
+			var img = "img\/scout.png";
+			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1Green" style = "top:' + yCord 
+			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
 		}
 	}
 	else{
@@ -641,7 +688,7 @@ function load(){
 
 }
 function pluginLoaded() {
-	alert("Plugin loaded!");
+	console.log("Plugin loaded!");
 
 	plugin().addEventListener("onServerStatusChange", function(data) {
 		console.log("onServerStatusChang: ",data);
@@ -652,7 +699,6 @@ function pluginLoaded() {
 	});
 	
 	plugin().addEventListener("onTextMessageReceived", function(data){
-		console.log("Message Received: " + data.message);
 		messageHandler(data);
 	});
 	
