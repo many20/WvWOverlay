@@ -9,14 +9,23 @@ html {
 
 .icon{
 	position: absolute;
+	
+}
+.bloodlust_icon{
+	position: absolute;
+	width: 28px;
 }
 .icon_img{
 	width: 150%;
-	height: 150%;
 }
 .icon_img_small{
-	width: 34%;
-	height: 34%;
+	width: 150%;
+}
+
+.riTimer{
+	position: absolute;
+	top: 35px;
+	left: 10px;
 }
 
 .scoutImg{
@@ -34,6 +43,33 @@ html {
 	color: yellow;
 
 }
+
+.scoutImg span {
+	margin-left: -999em;
+	position: absolute;
+}
+
+.scoutImg:hover span{
+	position: absolute; 
+	left: 1em; 
+	top: 2em; 
+	z-index: 99;
+	margin-left: 0; 
+	width: 150px;
+	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	-webkit-border-radius: 5px; 
+	
+}
+
+.tooltip{
+	padding: 0.8em 1em;
+}
+
+.wpTooltip{
+	background: #9FDAEE; 
+	border: 1px solid #2BB0D7;
+}
+
 #container{
 	-webkit-transform: scale(1);
 	-webkit-transform-origin: left top;
@@ -260,8 +296,7 @@ html {
 }
 
 .circle a:hover {
-  color: #eef;
-  /*create background gradient to highlight hover*/
+  background: -webkit-radial-gradient(rgba(220,220,220,1),rgba(220,220,220,0));
 }
 
 .menu-button {

@@ -1,6 +1,8 @@
 var MYAPP = {};
 MYAPP.wvw = {
 	currentWorldNumber : "",
+	enemy1Number: "",
+	enemy2Number: "",
 	currentWorldColor : "", 
 	enemy1Color : "",
 	enemy2Color : "", 
@@ -160,7 +162,18 @@ $(document).ready(function(){
 	
 	//TODO: add functionality of being able to set the upgrades for the objectives
 	$('#worldPoints').delegate(".icon_img", "click", function(){
-		alert("CLICKED ON ICON: " + $(this).closest('div').attr('id'));
+		//alert("CLICKED ON ICON: " + $(this).closest('div').attr('id'));
+		
+		//TODO: These are pulling ###px, need to remove the px part. 
+		var xOffset = $(this).closest('div').css('left');
+		var yOffset = $(this).closest('div').css('top');
+		
+		
+		MYAPP.wvw.mouseClickX = parseInt(xOffset.slice(0,3));
+		MYAPP.wvw.mouseClickY = parseInt(yOffset.slice(0,3));
+		
+		console.log('Coordinates: ' + MYAPP.wvw.mouseClickX + " " + MYAPP.wvw.mouseClickY);
+		objClick(MYAPP.wvw.mouseClickX+16, MYAPP.wvw.mouseClickY+16);
 	});
 	
 	//calls the mapClick function which will place a scout selector on the map wher eyou clicked.
@@ -183,7 +196,8 @@ $(document).ready(function(){
 	//hids the scout selector when you click on it. 
 	$('#centerSelector').delegate('a', "click", function(){
 		//TODO: change this next line to jQuery, make sure it completes before closing. 
-		document.querySelector('.circle').classList.toggle('open');
+		//document.querySelector('.circle').classList.toggle('open');
+		$('.circle').toggleClass('open');
 		$("#circular-menu").attr("class", "hidden");
 	});
 	
@@ -194,7 +208,7 @@ var changeMap = function (curMap){
 		
 		if(curMap === 'map_eternalbg'){
 			$('#map').empty();	
-			$('#map').append("<img src = 'img/map_eternal.png' alt = 'EBG MAP'>");
+			$('#map').append("<img src = 'img/map_eternal2.png' alt = 'EBG MAP'>");
 			localStorage['currentWvWMap'] = curMap;
 			$('#worldPoints').empty();
 			$('#scoutPoints').empty();
@@ -203,7 +217,7 @@ var changeMap = function (curMap){
 		}
 		else if(curMap === 'map_borderland_red'){
 			$('#map').empty();
-			$('#map').append("<img src = 'img/map_borderland.png' alt = 'Borderland Map'>");
+			$('#map').append("<img src = 'img/map_borderland2.png' alt = 'Borderland Map'>");
 			localStorage['currentWvWMap'] = curMap;		
 			$('#worldPoints').empty();
 			$('#scoutPoints').empty();
@@ -212,7 +226,7 @@ var changeMap = function (curMap){
 		}
 		else if(curMap === 'map_borderland_blue'){
 			$('#map').empty();
-			$('#map').append("<img src = 'img/map_borderland.png' alt = 'Borderland Map'>");
+			$('#map').append("<img src = 'img/map_borderland2.png' alt = 'Borderland Map'>");
 			localStorage['currentWvWMap'] = curMap;
 			$('#worldPoints').empty();
 			$('#scoutPoints').empty();
@@ -221,7 +235,7 @@ var changeMap = function (curMap){
 		}
 		else if(curMap === 'map_borderland_green'){
 			$('#map').empty();
-			$('#map').append("<img src = 'img/map_borderland.png' alt = 'Borderland Map'>");
+			$('#map').append("<img src = 'img/map_borderland2.png' alt = 'Borderland Map'>");
 			localStorage['currentWvWMap'] = curMap;
 			$('#worldPoints').empty();
 			$('#scoutPoints').empty();
@@ -274,6 +288,17 @@ var getCurrentWorldNumber = function(){
 	
 };
 
+//gets the world name associated with the given world number
+//used to populate the names on the hovers. 
+var getSpecificWorldName = function(worldNum){
+	var worldIDs = MYAPP.wvw.worldIDs;
+	for (var curNumber in worldIDs){
+		if(worldIDs.hasOwnProperty(curNumber) && worldNum === curNumber){
+			return worldIDs[curNumber];
+		}
+	}
+};
+
 //gets a list of all the current matches, and finds the one that corresponds with the selected world.
 //sets the world color and match id to MYAPP global variables, and sets the matchID to local storage. 
 var getWvWMatchIDandWorldColor = function(curWorldNum){
@@ -287,21 +312,27 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
 					MYAPP.wvw.currentWorldColor =  "red";
 					MYAPP.wvw.enemy1Color =  "green";
+					MYAPP.wvw.enemy1Number = matches.wvw_matches[match].green_world_id;
 					MYAPP.wvw.enemy2Color =  "blue";
+					MYAPP.wvw.enemy2Number = matches.wvw_matches[match].blue_world_id;
 				}
 				else if(matches.wvw_matches[match].blue_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
 					MYAPP.wvw.currentWorldColor =  "blue";
 					MYAPP.wvw.enemy1Color =  "red";
+					MYAPP.wvw.enemy1Number = matches.wvw_matches[match].red_world_id;
 					MYAPP.wvw.enemy2Color =  "green";				
+					MYAPP.wvw.enemy2Number = matches.wvw_matches[match].green_world_id;
 				}
 				else if(matches.wvw_matches[match].green_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
 					MYAPP.wvw.currentWorldColor =  "green";
 					MYAPP.wvw.enemy1Color =  "blue";
+					MYAPP.wvw.enemy1Number = matches.wvw_matches[match].blue_world_id;
 					MYAPP.wvw.enemy2Color =  "red";				
+					MYAPP.wvw.enemy2Number = matches.wvw_matches[match].red_world_id;
 				}
 				else{
 					continue;
@@ -312,6 +343,8 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 			localStorage['worldColor'] = MYAPP.wvw.currentWorldColor;
 			localStorage['e1Color'] = MYAPP.wvw.enemy1Color;
 			localStorage['e2Color'] = MYAPP.wvw.enemy2Color;
+			localStorage['e1Number'] = MYAPP.wvw.enemy1Number;
+			localStorage['e2Number'] = MYAPP.wvw.enemy2Number;
 			
 		}
 	});
@@ -320,7 +353,7 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 
 //Calls the gw2 API to get the current match details corresponding to the given match ID. 
 //Calls the populatePoints function based on the current map. On first load of openWvWMapWindow, no map is selected.
-//Right now on first load, an alert pops up, saying to select a map. **May change this later**
+
 var getAllMatchDetails = function(matchID){
 	$.ajax({
 		async : false,
@@ -376,28 +409,43 @@ var populatePoints = function(currentMatch, mapType){
 					appendHTML(objectiveColor, objectiveNo);
 				}else{
 					//if the image has changed, add the new point and start the RI countdown. 
-					if(document.getElementById(currentElement).childNodes[0].getAttribute('id') !== objectiveNo+""+objectiveColor){
-						console.log(document.getElementById(currentElement).childNodes[0].getAttribute('id') + " : " + objectiveNo+""+objectiveColor);
+					if(document.getElementById(currentElement).childNodes[0].getAttribute('id') !== objectiveNo+""+objectiveColor 
+					&& objectiveNo < 62){
+						console.log(document.getElementById(currentElement).childNodes[0].getAttribute('id') 
+							+ " : " + objectiveNo+""+objectiveColor);
 						$('#'+currentElement).remove();
 						appendHTML(objectiveColor, objectiveNo);
 						//TODO: create RI countdown method. 
 						riCountdownTimer(currentElement);
-					}
-				}				
+					}else if(document.getElementById(currentElement).childNodes[0].getAttribute('id') !== objectiveNo+""+objectiveColor 
+					&& objectiveNo >= 62){
+						console.log(document.getElementById(currentElement).childNodes[0].getAttribute('id') 
+							+ " : " + objectiveNo+""+objectiveColor);
+						$('#'+currentElement).remove();
+						appendHTML(objectiveColor, objectiveNo);
+					}				
+				}
 			}
 		}
-	}
+	};
 };
-
 
 //places a scout selector where you click on the map. 
 var mapClick = function(img, xCord, yCord){
 	var curColor = localStorage['worldColor']; 
-	console.log(img + ' placed at:' + xCord + ',' + yCord);
-	//$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+	console.log('Selector placed at:' + xCord + ',' + yCord);
+
 	placeSelector(xCord, yCord, curColor);
 	
 	console.log("My Color: " + curColor);
+};
+
+var objClick = function(xCord, yCord){
+    var curColor = localStorage['worldColor']; 
+	console.log('Selector placed at:' + xCord + ',' + yCord);	
+	
+	//TODO: May need to add px behind xcord and y cord
+	placeSelector(xCord, yCord, curColor);
 };
 
 //when the map is clicked, unhides the a scout selector and moves it to where you clicked.
@@ -448,14 +496,18 @@ var placeScoutPointE1 = function(){
 	xCord = MYAPP.wvw.mouseClickX-18;
 	yCord = MYAPP.wvw.mouseClickY-18;
 	var enemyColor = localStorage['e1Color'];
+	console.log("E1 Number: " + localStorage['e1Number']);
+	var enemyName = getSpecificWorldName(localStorage['e1Number']);
+	
+	console.log(enemyColor + " enemy is: " + enemyName);
 	console.log("Color: " + enemyColor);
-	var img = "img\/scout.png";
-	$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1' + enemyColor + '" style = "top:' + yCord 
-		+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+	// var img = "img\/scout.png";
+	// $('#scoutPoints').append('<div class = "scoutImg" id = "enemy1' + enemyColor + '" style = "top:' + yCord 
+		// + 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
 	
-	sendTSMessage(enemyColor+"Scout",xCord,yCord);
+	sendTSMessage(enemyColor+"Scout",xCord,yCord,enemyName);
 	
 };
 
@@ -463,14 +515,18 @@ var placeScoutPointE2 = function(){
 	xCord = MYAPP.wvw.mouseClickX-18;
 	yCord = MYAPP.wvw.mouseClickY-18;
 	var enemyColor = localStorage['e2Color'];
+	console.log("E2 Number: " + localStorage['e2Number']);
+	var enemyName = getSpecificWorldName(localStorage['e2Number']);
+	
+	console.log(enemyColor + " enemy is: " + enemyName);
 	console.log("Color: " + enemyColor);
-	var img = "img\/scout.png";
-	$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1' + enemyColor + '" style = "top:' + yCord 
-		+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+	// var img = "img\/scout.png";
+	// $('#scoutPoints').append('<div class = "scoutImg" id = "enemy1' + enemyColor + '" style = "top:' + yCord 
+		// + 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
 	
-	sendTSMessage(enemyColor+"Scout",xCord,yCord);
+	sendTSMessage(enemyColor+"Scout",xCord,yCord,enemyName);
 
 	
 };
@@ -478,44 +534,38 @@ var placeScoutPointE2 = function(){
 var placeWaypoint = function(){
 	xCord = MYAPP.wvw.mouseClickX-18;
 	yCord = MYAPP.wvw.mouseClickY-18;
-	$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord 
-	+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a></div>');
-	
+	// `
 	
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
-	
-	
-	console.log("ServerID: " + MYAPP.wvw.serverId);
-	console.log("ChannelID: " + MYAPP.wvw.channelId);
-	
-	sendTSMessage("_wp",xCord,yCord);
+
+	sendTSMessage("_wp",xCord,yCord,"none");
 	
 };
 
-var sendTSMessage = function(type, xCord, yCord){
+var sendTSMessage = function(type, xCord, yCord,enemyName){
 	if(type === "redScout"){
 		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
-									, message: "_rs;" + xCord + ";" + yCord}, function(){
+									, message: "_rs;" + xCord + ";" + yCord + ";" + enemyName}, function(){
 		console.log("Message Sent: Red Scout PLACED @: " + xCord + ", " + yCord);
 		});
 	}
 	else if(type === "blueScout"){
 		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
-									, message: "_bs;" + xCord + ";" + yCord}, function(){
-		console.log("Message Sent: Red Scout PLACED @: " + xCord + ", " + yCord);
+									, message: "_bs;" + xCord + ";" + yCord + ";" + enemyName}, function(){
+		console.log("Message Sent: Blue Scout PLACED @: " + xCord + ", " + yCord);
 		});
 	}
 	else if(type === "greenScout"){
 		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
-									, message: "_gs;" + xCord + ";" + yCord}, function(){
-		console.log("Message Sent: Red Scout PLACED @: " + xCord + ", " + yCord);
+									, message: "_gs;" + xCord + ";" + yCord + ";" + enemyName}, function(){
+		console.log("Message Sent: Green Scout PLACED @: " + xCord + ", " + yCord);
 		});
 	}
 	else if(type === "_wp"){
 		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
-									, message: "_wp;" + xCord + ";" + yCord}, function(){
-		console.log("Message Sent: Red Scout PLACED @: " + xCord + ", " + yCord);
+									, message: "_wp;" + xCord + ";" + yCord + ";none"}, function(){
+		console.log("Message Sent: Waypoint PLACED @: " + xCord + ", " + yCord);
 		});
 	}
 	else{
@@ -534,29 +584,34 @@ var messageHandler = function(data){
 	
 	if(data.message.charAt(0) === "_"){
 		console.log("Start Handling");
-		var messageArr = data.message.split(";", 3);
+		var messageArr = data.message.split(";", 4);
 		var pointType = messageArr[0];
 		var xCord = messageArr[1];
 		var yCord = messageArr[2];
+		var enemyName = messageArr[3];
 		
 		if(pointType === "_wp"){
 			$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord 
-			+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a></div>');
+			+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a><span class="tooltip wpTooltip">'
+			+'Waypoint placed by: '+ data.fromClientName +'</span></div>');
 		}
 		else if(pointType === "_rs"){
 			var img = "img\/scout.png";
-			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1Red" style = "top:' + yCord 
-			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1red" style = "top:' + yCord 
+			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"><span class="tooltip wpTooltip">'
+			+ enemyName + '<br/>' + 'Spotted: ' + /*PUT TIME IN SECONDS HERE +*/ 'seconds ago. <br/>' +'Waypoint placed by: '+ data.fromClientName +'</span></div>');
 		}
 		else if(pointType === "_bs"){
 			var img = "img\/scout.png";
-			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1Blue" style = "top:' + yCord 
-			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1blue" style = "top:' + yCord 
+			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"><span class="tooltip wpTooltip">'
+			+ enemyName + '<br/>' + 'Spotted: ' + /*PUT TIME IN SECONDS HERE +*/ 'seconds ago. <br/>' +'Waypoint placed by: '+ data.fromClientName +'</span></div>');
 		}
 		else if(pointType === "_gs"){
 			var img = "img\/scout.png";
-			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1Green" style = "top:' + yCord 
-			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"></div>');
+			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1green" style = "top:' + yCord 
+			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"><span class="tooltip wpTooltip">'
+			+ enemyName + '<br/>' + 'Spotted: ' + /*PUT TIME IN SECONDS HERE +*/ 'seconds ago. <br/>' +'Waypoint placed by: '+ data.fromClientName +'</span></div>');
 		}
 	}
 	else{
@@ -569,7 +624,7 @@ var messageHandler = function(data){
 var riCountdownTimer = function(element){
 	var minutes = 5;
 	var seconds = minutes * 60;
-	$('#' + element).append('<div id="' + element + 'countdown" style="background:rgba(75, 75, 75, 0.75); color:#FFFFFF"></div>');
+	$('#' + element).append('<div id="' + element + 'countdown" class = "riTimer" style="background:rgba(75, 75, 75, 0.75); color:#FFFFFF"></div>');
 	var startCountdown = setInterval(function(){ 
 		seconds -= 1;
 		minutes = seconds/60;
@@ -583,7 +638,7 @@ var riCountdownTimer = function(element){
 		clearInterval(startCountdown);
 		$('#' + element + 'countdown').remove();
 
-	}, 300000)
+	}, seconds * 1000);
 };
 
 //Adds the correct objective icons and colors. 
@@ -594,7 +649,7 @@ var appendHTML = function(objColor, objId){
 		+'.' + objColor + '.png" id="'+ objId + objColor + '" class="icon_img"></div>');
 	}else{//This also makes it so these points are not clickable to set upgrades. The class is different. 
 		$('#worldPoints').append('<div id ="objectiveNo' + objId 
-		+ '" class = "icon"><img src = "img/'+ MYAPP.wvw.objectiveTypes[objId]
+		+ '" class = "bloodlust_icon"><img src = "img/'+ MYAPP.wvw.objectiveTypes[objId]
 		+'.' + objColor + '.png" id="'+ objId + objColor + '" class="icon_img_small"></div>');
 	}
 };
@@ -604,6 +659,7 @@ var appendHTML = function(objColor, objId){
 var selectWorld = function(){
 
 	localStorage.removeItem('currentWvWMap');
+	//**************************
 	getCurrentWorldNumber();
 	console.log("Current World Number: " + MYAPP.wvw.currentWorldNumber);
 	

@@ -26,7 +26,7 @@
 					"file":"Files/WvWMapWindow.html",
 					"transparent":true,
 					"resizable":false,
-					"size":{"width":877, "height":950},
+					"size":{"width":877, "height":999},
 					"in_game_only":false
 				}
 		}
