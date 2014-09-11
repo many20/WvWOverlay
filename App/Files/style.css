@@ -28,6 +28,10 @@ html {
 	left: 10px;
 }
 
+.tooltip span{
+	top: 1px;
+}
+
 .scoutImg{
 	border-radius: 50%;
 	background-color: ;
@@ -44,15 +48,15 @@ html {
 
 }
 
-.scoutImg span {
+.scoutImg div {
 	margin-left: -999em;
 	position: absolute;
 }
 
-.scoutImg:hover span{
+.scoutImg:hover div{
 	position: absolute; 
-	left: 1em; 
-	top: 2em; 
+	left: 0.5em; 
+	top: 1.5em; 
 	z-index: 99;
 	margin-left: 0; 
 	width: 150px;
@@ -61,8 +65,27 @@ html {
 	
 }
 
+.scoutImg div:hover {
+	position: absolute; 
+	left: 0.5em; 
+	top: 1.5em; 
+	z-index: 99;
+	margin-left: 0; 
+	width: 150px;
+	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	-webkit-border-radius: 5px; 
+	
+}
+
+.clientIDHidden
+
 .tooltip{
-	padding: 0.8em 1em;
+	padding: 0.6em 0.8em;
+}
+
+.tooltip a{
+	text-decoration: none;
+	text-align: center;
 }
 
 .wpTooltip{
@@ -106,15 +129,15 @@ html {
 	background: rgba(0,0,0, 0.01);
 }
 
-#enemy1green{
+._gs{
 	background-color : #36945F;
 }
 
-#enemy1red{
+._rs{
 	background-color : #B11313;
 }
 
-#enemy1blue{
+._bs{
 	background-color : #4689BD;
 }
 

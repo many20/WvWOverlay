@@ -195,7 +195,7 @@ $(document).ready(function(){
 	
 	//hids the scout selector when you click on it. 
 	$('#centerSelector').delegate('a', "click", function(){
-		//TODO: change this next line to jQuery, make sure it completes before closing. 
+		//TODO: circle toggles before closing. 
 		//document.querySelector('.circle').classList.toggle('open');
 		$('.circle').toggleClass('open');
 		$("#circular-menu").attr("class", "hidden");
@@ -573,6 +573,13 @@ var sendTSMessage = function(type, xCord, yCord,enemyName){
 	}
 };
 
+var mutePlayer = function(annoyingPlayerId){
+	console.log("Server: "+MYAPP.wvw.serverId);
+	plugin().muteClient({serverId: MYAPP.wvw.serverId, clientId: annoyingPlayerId, mute: true}, function(result){
+		console.log("Player Muted: "+ result.success);
+	});
+}
+
 var centerClick = function(){
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
@@ -588,30 +595,23 @@ var messageHandler = function(data){
 		var pointType = messageArr[0];
 		var xCord = messageArr[1];
 		var yCord = messageArr[2];
-		var enemyName = messageArr[3];
+		var enemyName = messageArr[3];	
+		var img = "img\/scout.png";		
 		
 		if(pointType === "_wp"){
 			$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord 
-			+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a><span class="tooltip wpTooltip">'
-			+'Waypoint placed by: '+ data.fromClientName +'</span></div>');
+			+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a><div class="tooltip wpTooltip">'
+			+'Waypoint placed by: '+ data.fromClientName +'<br/><a href = "#" onclick="mutePlayer('+data.fromClientId+'); return false;">Mute Player</a></div></div>');
+			
+			scoutPointAppender(pointType, xCord, yCord);
 		}
-		else if(pointType === "_rs"){
-			var img = "img\/scout.png";
-			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1red" style = "top:' + yCord 
-			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"><span class="tooltip wpTooltip">'
-			+ enemyName + '<br/>' + 'Spotted: ' + /*PUT TIME IN SECONDS HERE +*/ 'seconds ago. <br/>' +'Waypoint placed by: '+ data.fromClientName +'</span></div>');
-		}
-		else if(pointType === "_bs"){
-			var img = "img\/scout.png";
-			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1blue" style = "top:' + yCord 
-			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"><span class="tooltip wpTooltip">'
-			+ enemyName + '<br/>' + 'Spotted: ' + /*PUT TIME IN SECONDS HERE +*/ 'seconds ago. <br/>' +'Waypoint placed by: '+ data.fromClientName +'</span></div>');
-		}
-		else if(pointType === "_gs"){
-			var img = "img\/scout.png";
-			$('#scoutPoints').append('<div class = "scoutImg" id = "enemy1green" style = "top:' + yCord 
-			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"><span class="tooltip wpTooltip">'
-			+ enemyName + '<br/>' + 'Spotted: ' + /*PUT TIME IN SECONDS HERE +*/ 'seconds ago. <br/>' +'Waypoint placed by: '+ data.fromClientName +'</span></div>');
+		else{
+			$('#scoutPoints').append('<div class = "scoutImg ' + pointType + '" id = "'+ pointType + xCord + yCord +'" style = "top:' + yCord 
+			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"><div class="tooltip wpTooltip">'
+			+ enemyName + '<br/>' + 'Spotted: <span class="' + pointType + 'timer"></span> secs ago. <br/>' +'Waypoint placed by: '+ data.fromClientName 
+			+'<br/><a href = "#" onclick="mutePlayer('+data.fromClientId+'); return false;">Mute Player</a></div></div>');
+
+			scoutPointAppender(pointType, xCord, yCord);
 		}
 	}
 	else{
@@ -639,6 +639,24 @@ var riCountdownTimer = function(element){
 		$('#' + element + 'countdown').remove();
 
 	}, seconds * 1000);
+};
+
+var scoutPointAppender = function(pointType, xCord, yCord){
+	var time = 60;
+	var seconds = 0;
+	
+	var startCountdown = setInterval(function(){ 
+		seconds += 1;
+		
+		$('#' + pointType + xCord + yCord + ' .tooltip span').html(seconds);
+		//$('#' + pointType + xCord + yCord + ' .tooltip span').append(seconds);
+	}, 1000);
+	
+	var stopCountdown = setTimeout(function(){
+		clearInterval(startCountdown);
+		$('#' + pointType + xCord + yCord).remove();
+
+	}, time * 1000);
 };
 
 //Adds the correct objective icons and colors. 
