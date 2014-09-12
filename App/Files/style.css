@@ -93,6 +93,17 @@ html {
 	border: 1px solid #2BB0D7;
 }
 
+.optionsButton{
+
+	padding: 5px 10px;
+	background-color: #F0F0F0;
+	color: #666;
+	margin: 3px;
+	text-decoration: none;
+	clear: both;
+	left: -17px;
+}
+
 #container{
 	-webkit-transform: scale(1);
 	-webkit-transform-origin: left top;
@@ -106,19 +117,33 @@ html {
 	display: block;
 }
 
-#worldSelector{
+#welcomeMessage{
 	position: absolute;
+	top: 100px;
+	left: 150px;
+	width: 400px;
+	background: rgba(222,151,71,0.05);
+	border-radius: 10px;
+	clear: both;
 }
 
-#close_onmap{
+#welcomeMessage h3{
+	text-align: center;
+}
+
+#optionsContainer{
 	position: absolute;
-	left: 700px;
 	padding: 5px 10px;
-	background-color: #F0F0F0;
-	color: #666;
 	margin: 3px;
 	text-decoration: none;
+	background: rgba(222,151,71,0.05);
+	border-radius: 10px;
 	clear: both;
+	z-index: 10;
+}
+
+#options{
+	position: absolute;
 }
 
 #header {
@@ -320,6 +345,7 @@ html {
 
 .circle a:hover {
   background: -webkit-radial-gradient(rgba(220,220,220,1),rgba(220,220,220,0));
+  border-radius: 50%;
 }
 
 .menu-button {

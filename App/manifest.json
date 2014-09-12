@@ -11,9 +11,9 @@
 		"description":"WvW App"
 	},
 	"data": {
-		"start_window":"MainWindow",
+		"start_window":"WvWMapWindow",
 		"windows":{
-			"MainWindow":{
+			"ServerSelect":{
 					"file":"Files/index.html",
 					"transparent":true,
 					"resizable":false,

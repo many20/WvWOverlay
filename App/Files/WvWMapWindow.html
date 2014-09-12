@@ -15,17 +15,59 @@
 			<div id="header" onmousedown="dragMove();">
 				<h1>WvW Overlay!</h1>
 			</div>
-			
-			<div id="worldSelector">
-				<select name="map" id="map_list">
-					<option selected disabled>Choose Map</option>
-					<option value="map_eternalbg">Eternal Battleground</option>
-					<option value="map_borderland_red">Red Borderlands</option>
-					<option value="map_borderland_blue">Blue Borderlands</option>
-					<option value="map_borderland_green">Green Borderlands</option>
-				</select>
+			<div id = "options">
+				<img src = "img/options_icon.png">
+					<div id = "optionsContainer" class = "hidden">
+						<div id="worldSelector">
+							<select name="map" id="map_list">
+								<option selected disabled>Choose Map</option>
+								<option value="map_eternalbg">Eternal Battleground</option>
+								<option value="map_borderland_red">Red Borderlands</option>
+								<option value="map_borderland_blue">Blue Borderlands</option>
+								<option value="map_borderland_green">Green Borderlands</option>
+							</select>
+						</div>
+						<p>To toggle the Overwolf overlay press shift + F2</p>
+						<a href = "#" class="optionsButton" onclick="restoreWindow('ServerSelect'); return false;">Choose Server</a>
+						<br/>
+						<br/>
+						<a href = "#" class="optionsButton" onclick="closeWindow(); return false;">Close Overlay</a>
+
+					</div>
 			</div>
-			<a href = "#" id="close_onmap" onclick="closeWindow(); return false;">Close</a>
+			<div id = 'welcomeMessage'>
+				<h3>Hello! Welcome to the <br/> Guild Wars 2 Scout Overlay!</h3>
+				<br/>
+				<p>	The main purpose of this app is to provide easier communication 
+					between scouts and their respective server in World vs World.
+				</p>
+				<h4>Click on the options button, then click "Choose Server" to begin!</h4>
+				<p>
+					Features Include:
+					<ul>
+						<li>Up to date WvW Map</li>
+						<li>RI Timer on flipped objectives</li>
+						<li>Ability to click the map to set a waypoint</li>
+						<li>Can also set an enemy spotted icon</li>
+						<li>Seamless Integration with TeamSpeak</li>
+						<li>Waypoints and enemy spotted icons are automatically updated 
+							for everyone using the app in the same teamspeak channel</li>
+						<li>You have the ability to see who placed what icon, and
+							how long ago it was placed when you hover over it</li>
+						<li>You also have the ability to mute an annoying player
+							directly from the app in the hover tooltip!</li>
+						<li>Icons are automatically removed after 60 seconds, or
+							you can click on them to remove them from your map</li>
+					</ul>
+				</p>
+				<p>
+					Thank you so much for trying out my app. <br/>
+					If you have any suggestions, found any bugs, or if you have any other 
+					feedback, please email me at: nickbertrand1@gmail.com
+				</p>
+			
+			</div>
+			
 			<div id="map"></div>
 			<div id="worldPoints"></div>
 			<div id="scoutPoints"></div>

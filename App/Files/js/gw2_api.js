@@ -11,6 +11,9 @@ MYAPP.wvw = {
 	mouseClickY : "", 
 	channelId: "",
 	serverId: "", 
+	redName: "",
+	blueName: "",
+	greenName: "",
 	objectiveTypes : {
 		1: "Keep",
 		2: "Keep",
@@ -157,24 +160,25 @@ $(document).ready(function(){
 	$('#map_list').on('change',  function(){        
 		var curMap = $(this).val();
 		localStorage['currentWvWMap'] = curMap;
+		$("#welcomeMessage").attr("class", "hidden");
+		$("#optionsContainer").toggleClass("hidden");
 		changeMap(curMap);
 	});
 	
 	//TODO: add functionality of being able to set the upgrades for the objectives
-	$('#worldPoints').delegate(".icon_img", "click", function(){
-		//alert("CLICKED ON ICON: " + $(this).closest('div').attr('id'));
+	// $('#worldPoints').delegate(".icon_img", "click", function(){
 		
 		//TODO: These are pulling ###px, need to remove the px part. 
-		var xOffset = $(this).closest('div').css('left');
-		var yOffset = $(this).closest('div').css('top');
+		// var xOffset = $(this).closest('div').css('left');
+		// var yOffset = $(this).closest('div').css('top');
 		
 		
-		MYAPP.wvw.mouseClickX = parseInt(xOffset.slice(0,3));
-		MYAPP.wvw.mouseClickY = parseInt(yOffset.slice(0,3));
+		// MYAPP.wvw.mouseClickX = parseInt(xOffset.slice(0,3));
+		// MYAPP.wvw.mouseClickY = parseInt(yOffset.slice(0,3));
 		
-		console.log('Coordinates: ' + MYAPP.wvw.mouseClickX + " " + MYAPP.wvw.mouseClickY);
-		objClick(MYAPP.wvw.mouseClickX+16, MYAPP.wvw.mouseClickY+16);
-	});
+		// console.log('Coordinates: ' + MYAPP.wvw.mouseClickX + " " + MYAPP.wvw.mouseClickY);
+		// objClick(MYAPP.wvw.mouseClickX+16, MYAPP.wvw.mouseClickY+16);
+	// });
 	
 	//calls the mapClick function which will place a scout selector on the map wher eyou clicked.
 	$('#map').delegate("img", "click", function(e){
@@ -201,6 +205,10 @@ $(document).ready(function(){
 		$("#circular-menu").attr("class", "hidden");
 	});
 	
+	$('#options').delegate('img', "click", function(){
+		$("#optionsContainer").toggleClass("hidden");
+	});
+	
 });
 
 //remove old map and add new one when switching maps. 
@@ -213,7 +221,7 @@ var changeMap = function (curMap){
 			$('#worldPoints').empty();
 			$('#scoutPoints').empty();
 			getAllMatchDetails(localStorage['matchID']);
-			console.log('Center');
+			mapHeader('Center');
 		}
 		else if(curMap === 'map_borderland_red'){
 			$('#map').empty();
@@ -222,7 +230,7 @@ var changeMap = function (curMap){
 			$('#worldPoints').empty();
 			$('#scoutPoints').empty();
 			getAllMatchDetails(localStorage['matchID']);
-			console.log("RedHome");
+			mapHeader("RedHome");
 		}
 		else if(curMap === 'map_borderland_blue'){
 			$('#map').empty();
@@ -231,7 +239,7 @@ var changeMap = function (curMap){
 			$('#worldPoints').empty();
 			$('#scoutPoints').empty();
 			getAllMatchDetails(localStorage['matchID']);
-			console.log("BlueHome");
+			mapHeader("BlueHome");
 		}
 		else if(curMap === 'map_borderland_green'){
 			$('#map').empty();
@@ -240,7 +248,7 @@ var changeMap = function (curMap){
 			$('#worldPoints').empty();
 			$('#scoutPoints').empty();
 			getAllMatchDetails(localStorage['matchID']);
-			console.log("GreenHome");
+			mapHeader("GreenHome");
 		}
 		else{
 			alert("ERROR: INCORRECT MAP SELECTION");
@@ -250,6 +258,29 @@ var changeMap = function (curMap){
 		//Set to 5 seconds for now. 
 		var	startTimer = setInterval(function(){getAllMatchDetails(localStorage['matchID'])}, 5000);
 		
+};
+
+var mapHeader = function(map){
+	MYAPP.wvw.worlds = localStorage['worlds'];
+	if(map === "RedHome"){
+	
+		var worldName = getSpecificWorldName(localStorage['rname']);
+			
+		$("#header h1").html(worldName+" Borderlands");
+		
+	}else if(map === "GreenHome"){
+		
+		var worldName = getSpecificWorldName(localStorage['gname']);
+	
+		$("#header h1").html(worldName+" Borderlands");
+	}else if(map === "BlueHome"){
+		
+		var worldName = getSpecificWorldName(localStorage['bname']);
+	
+		$("#header h1").html(worldName+" Borderlands");
+	}else{
+		$("#header h1").html("Eternal Battlegrounds");
+	}
 };
 
 //Get world names from worldIDs object. 
@@ -307,6 +338,7 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 			url : 'https://api.guildwars2.com/v1/wvw/matches.json', 
 			success : function(matches){
 			for(match in matches.wvw_matches){
+			//TODO: REFACTOR RED GREEN AND BLUE NAME VARIABLES. Very messy but running out of time ugh...
 				if(matches.wvw_matches[match].red_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
 					MYAPP.wvw.wvwMatchID =  matches.wvw_matches[match].wvw_match_id;
@@ -315,6 +347,10 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 					MYAPP.wvw.enemy1Number = matches.wvw_matches[match].green_world_id;
 					MYAPP.wvw.enemy2Color =  "blue";
 					MYAPP.wvw.enemy2Number = matches.wvw_matches[match].blue_world_id;
+
+					MYAPP.wvw.redName = matches.wvw_matches[match].red_world_id;
+					MYAPP.wvw.greenName = matches.wvw_matches[match].green_world_id;
+					MYAPP.wvw.blueName = matches.wvw_matches[match].blue_world_id;
 				}
 				else if(matches.wvw_matches[match].blue_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
@@ -324,6 +360,10 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 					MYAPP.wvw.enemy1Number = matches.wvw_matches[match].red_world_id;
 					MYAPP.wvw.enemy2Color =  "green";				
 					MYAPP.wvw.enemy2Number = matches.wvw_matches[match].green_world_id;
+
+					MYAPP.wvw.redName = matches.wvw_matches[match].red_world_id;
+					MYAPP.wvw.greenName = matches.wvw_matches[match].green_world_id;
+					MYAPP.wvw.blueName = matches.wvw_matches[match].blue_world_id;
 				}
 				else if(matches.wvw_matches[match].green_world_id == curWorldNum){
 					console.log(matches.wvw_matches[match].wvw_match_id);
@@ -333,6 +373,10 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 					MYAPP.wvw.enemy1Number = matches.wvw_matches[match].blue_world_id;
 					MYAPP.wvw.enemy2Color =  "red";				
 					MYAPP.wvw.enemy2Number = matches.wvw_matches[match].red_world_id;
+
+					MYAPP.wvw.redName = matches.wvw_matches[match].red_world_id;
+					MYAPP.wvw.greenName = matches.wvw_matches[match].green_world_id;
+					MYAPP.wvw.blueName = matches.wvw_matches[match].blue_world_id;
 				}
 				else{
 					continue;
@@ -345,6 +389,13 @@ var getWvWMatchIDandWorldColor = function(curWorldNum){
 			localStorage['e2Color'] = MYAPP.wvw.enemy2Color;
 			localStorage['e1Number'] = MYAPP.wvw.enemy1Number;
 			localStorage['e2Number'] = MYAPP.wvw.enemy2Number;
+			localStorage['worlds'] = MYAPP.wvw.worlds;
+			
+			//TODO: REFACTOR THIS...
+			localStorage['rname'] = MYAPP.wvw.redName;
+			localStorage['bname'] = MYAPP.wvw.blueName;
+			localStorage['gname'] = MYAPP.wvw.greenName;
+			
 			
 		}
 	});
@@ -368,20 +419,15 @@ var getAllMatchDetails = function(matchID){
 				
 				//Find current map and begin to populate points. 
 				if(curMap === 'map_borderland_red'){
-					$('#close_onmap').css('left', '625px');
 					populatePoints(currentMatch, "RedHome");
 				}
 				else if(curMap === 'map_borderland_blue'){
-					$('#close_onmap').css('left', '625px');
-
 					populatePoints(currentMatch, "BlueHome");
 				}
 				else if(curMap === 'map_borderland_green'){
-					$('#close_onmap').css('left', '625px');
 					populatePoints(currentMatch, "GreenHome");
 				}
 				else if(curMap === 'map_eternalbg'){
-					$('#close_onmap').css('left', '700px');
 					populatePoints(currentMatch, "Center");
 				}
 				else{
@@ -498,6 +544,7 @@ var placeScoutPointE1 = function(){
 	var enemyColor = localStorage['e1Color'];
 	console.log("E1 Number: " + localStorage['e1Number']);
 	var enemyName = getSpecificWorldName(localStorage['e1Number']);
+	var placedMap = localStorage['currentWvWMap'];
 	
 	console.log(enemyColor + " enemy is: " + enemyName);
 	console.log("Color: " + enemyColor);
@@ -507,7 +554,7 @@ var placeScoutPointE1 = function(){
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
 	
-	sendTSMessage(enemyColor+"Scout",xCord,yCord,enemyName);
+	sendTSMessage(enemyColor+"Scout",xCord,yCord,enemyName,placedMap);
 	
 };
 
@@ -517,7 +564,8 @@ var placeScoutPointE2 = function(){
 	var enemyColor = localStorage['e2Color'];
 	console.log("E2 Number: " + localStorage['e2Number']);
 	var enemyName = getSpecificWorldName(localStorage['e2Number']);
-	
+	var placedMap = localStorage['currentWvWMap'];
+
 	console.log(enemyColor + " enemy is: " + enemyName);
 	console.log("Color: " + enemyColor);
 	// var img = "img\/scout.png";
@@ -526,7 +574,7 @@ var placeScoutPointE2 = function(){
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
 	
-	sendTSMessage(enemyColor+"Scout",xCord,yCord,enemyName);
+	sendTSMessage(enemyColor+"Scout",xCord,yCord,enemyName,placedMap);
 
 	
 };
@@ -534,37 +582,38 @@ var placeScoutPointE2 = function(){
 var placeWaypoint = function(){
 	xCord = MYAPP.wvw.mouseClickX-18;
 	yCord = MYAPP.wvw.mouseClickY-18;
+	placedMap = localStorage['currentWvWMap'];
 	// `
 	
 	$('.circle').toggleClass('open');
 	$("#circular-menu").attr("class", "hidden");
 
-	sendTSMessage("_wp",xCord,yCord,"none");
+	sendTSMessage("_wp",xCord,yCord,"none",placedMap);
 	
 };
 
-var sendTSMessage = function(type, xCord, yCord,enemyName){
+var sendTSMessage = function(type, xCord, yCord,enemyName,placedMap){
 	if(type === "redScout"){
 		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
-									, message: "_rs;" + xCord + ";" + yCord + ";" + enemyName}, function(){
+									, message: "_rs;" + xCord + ";" + yCord + ";" + enemyName + ";" + placedMap}, function(){
 		console.log("Message Sent: Red Scout PLACED @: " + xCord + ", " + yCord);
 		});
 	}
 	else if(type === "blueScout"){
 		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
-									, message: "_bs;" + xCord + ";" + yCord + ";" + enemyName}, function(){
+									, message: "_bs;" + xCord + ";" + yCord + ";" + enemyName + ";" + placedMap}, function(){
 		console.log("Message Sent: Blue Scout PLACED @: " + xCord + ", " + yCord);
 		});
 	}
 	else if(type === "greenScout"){
 		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
-									, message: "_gs;" + xCord + ";" + yCord + ";" + enemyName}, function(){
+									, message: "_gs;" + xCord + ";" + yCord + ";" + enemyName + ";" + placedMap}, function(){
 		console.log("Message Sent: Green Scout PLACED @: " + xCord + ", " + yCord);
 		});
 	}
 	else if(type === "_wp"){
 		plugin().sendTextMessage({type:  "Channel", targetId: MYAPP.wvw.channelId,  serverId: MYAPP.wvw.serverId
-									, message: "_wp;" + xCord + ";" + yCord + ";none"}, function(){
+									, message: "_wp;" + xCord + ";" + yCord + ";none" + ";" + placedMap}, function(){
 		console.log("Message Sent: Waypoint PLACED @: " + xCord + ", " + yCord);
 		});
 	}
@@ -591,27 +640,31 @@ var messageHandler = function(data){
 	
 	if(data.message.charAt(0) === "_"){
 		console.log("Start Handling");
-		var messageArr = data.message.split(";", 4);
+		var messageArr = data.message.split(";", 5);
 		var pointType = messageArr[0];
 		var xCord = messageArr[1];
 		var yCord = messageArr[2];
 		var enemyName = messageArr[3];	
+		var placedMap = messageArr[4]
 		var img = "img\/scout.png";		
-		
-		if(pointType === "_wp"){
-			$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord 
-			+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a><div class="tooltip wpTooltip">'
-			+'Waypoint placed by: '+ data.fromClientName +'<br/><a href = "#" onclick="mutePlayer('+data.fromClientId+'); return false;">Mute Player</a></div></div>');
-			
-			scoutPointAppender(pointType, xCord, yCord);
-		}
-		else{
-			$('#scoutPoints').append('<div class = "scoutImg ' + pointType + '" id = "'+ pointType + xCord + yCord +'" style = "top:' + yCord 
-			+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"><div class="tooltip wpTooltip">'
-			+ enemyName + '<br/>' + 'Spotted: <span class="' + pointType + 'timer"></span> secs ago. <br/>' +'Waypoint placed by: '+ data.fromClientName 
-			+'<br/><a href = "#" onclick="mutePlayer('+data.fromClientId+'); return false;">Mute Player</a></div></div>');
+		if(placedMap === localStorage['currentWvWMap']){	
+			if(pointType === "_wp"){
+				$('#scoutPoints').append('<div class = "scoutImg" style = "top:' + yCord + 'px; left:' + xCord 
+				+ 'px; position: absolute;"><a href="#" class="waypoint fa fa-asterisk" onclick = "return false;"></a><div class="tooltip wpTooltip">'
+				+'Waypoint placed by: '+ data.fromClientName +'<br/><a href = "#" onclick="mutePlayer('+data.fromClientId+'); return false;">Mute Player</a></div></div>');
+				
+				scoutPointAppender(pointType, xCord, yCord);
+			}
+			else{
+				$('#scoutPoints').append('<div class = "scoutImg ' + pointType + '" id = "'+ pointType + xCord + yCord +'" style = "top:' + yCord 
+				+ 'px; left:' + xCord + 'px; position: absolute;"><img src = "' +img+ '"><div class="tooltip wpTooltip">'
+				+ enemyName + '<br/>' + 'Spotted: <span class="' + pointType + 'timer"></span> secs ago. <br/>' +'Waypoint placed by: '+ data.fromClientName 
+				+'<br/><a href = "#" onclick="mutePlayer('+data.fromClientId+'); return false;">Mute Player</a></div></div>');
 
-			scoutPointAppender(pointType, xCord, yCord);
+				scoutPointAppender(pointType, xCord, yCord);
+			}
+		}else{
+			console.log(placedMap + "!=" + localStorage['currentWvWMap']);
 		}
 	}
 	else{
@@ -685,7 +738,8 @@ var selectWorld = function(){
 	console.log(MYAPP.wvw.wvwMatchID);
 	console.log(MYAPP.wvw.currentWorldColor);
 	
-	openWvWMapWindow();
+	minimizeWindow();
+	//openWvWMapWindow();
 
 	getAllMatchDetails(localStorage['matchID']);
 	
@@ -713,6 +767,7 @@ var closeWindow = function(){
 	overwolf.windows.getCurrentWindow(function(result){
 		if (result.status=="success"){
 			overwolf.windows.close(result.window.id);
+			localStorage.clear();
 		};
 	});
 };
@@ -721,6 +776,14 @@ var minimizeWindow = function(){
 	overwolf.windows.getCurrentWindow(function(result){
 		if (result.status=="success"){
 			overwolf.windows.minimize(result.window.id);
+		};
+	});
+};
+
+var restoreWindow = function(window){
+	overwolf.windows.obtainDeclaredWindow(window, function(result){
+		if (result.status=="success"){
+			overwolf.windows.restore(result.window.id);
 		};
 	});
 };
