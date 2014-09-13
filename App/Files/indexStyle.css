@@ -20,8 +20,12 @@ body{
 	
 	padding: 5px 10px;
 	background-color: #F0F0F0;
-	color: #666;
+	color: #2C2C2C;
 	margin: 3px;
 	text-decoration: none;
 	clear: both;
+}
+
+#buttons > a:hover{
+	background-color: #D6D5D5
 }
