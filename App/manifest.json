@@ -6,8 +6,8 @@
 		"version":"1.0.0",
 		"minimum-overwolf-version":"0.77.10",
 		"author":"SirNikkolas",
-		"icon":"castle.red.png",
-		"icon_gray":"castle.png",
+		"icon":"IconMouseOver.png",
+		"icon_gray":"IconMouseNormal.png",
 		"description":"WvW App"
 	},
 	"data": {
