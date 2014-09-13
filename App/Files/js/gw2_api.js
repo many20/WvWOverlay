@@ -532,7 +532,7 @@ var placeSelector = function(xCord, yCord, curColor){
 		document.querySelector('.circle').classList.toggle('open');
 	}*/
 		
-		document.querySelector('.circle').classList.toggle('open');//open circle when created. 
+		$('.circle').attr('class', 'circle open');//open circle when created. 
 
 };
 

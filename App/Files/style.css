@@ -1,4 +1,15 @@
 ﻿@import "http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css";
+@font-face {
+    font-family: Menomonia;
+    src: url('/fonts/menomonia/08-02-12/font/menomonia.eot');
+    src: url('/fonts/menomonia/08-02-12/font/menomonia.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/menomonia/08-02-12/font/menomonia.woff') format('woff'),
+         url('/fonts/menomonia/08-02-12/font/menomonia.ttf') format('truetype'),
+         url('/fonts/menomonia/08-02-12/font/menomonia.svg#MenomoniaRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 html {
 	overflow: hidden;
@@ -97,7 +108,7 @@ html {
 
 	padding: 5px 10px;
 	background-color: #F0F0F0;
-	color: #666;
+	color:  #AAAAAA;
 	margin: 3px;
 	text-decoration: none;
 	clear: both;
@@ -122,9 +133,11 @@ html {
 	top: 100px;
 	left: 150px;
 	width: 400px;
-	background: rgba(222,151,71,0.05);
-	border-radius: 10px;
+	background-color:#16161C;
+	color: #AAAAAA;
+	border-radius: 3px;
 	clear: both;
+	 font-family: Menomonia;
 }
 
 #welcomeMessage h3{
@@ -136,10 +149,12 @@ html {
 	padding: 5px 10px;
 	margin: 3px;
 	text-decoration: none;
-	background: rgba(222,151,71,0.05);
-	border-radius: 10px;
+	background-color:#16161C;
+	color: #AAAAAA;
+	border-radius: 3px;
 	clear: both;
 	z-index: 10;
+	 font-family: Menomonia;
 }
 
 #options{
