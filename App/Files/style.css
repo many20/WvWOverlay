@@ -1,13 +1,7 @@
 ﻿@import "http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css";
 @font-face {
     font-family: Menomonia;
-    src: url('/fonts/menomonia/08-02-12/font/menomonia.eot');
-    src: url('/fonts/menomonia/08-02-12/font/menomonia.eot?#iefix') format('embedded-opentype'),
-         url('/fonts/menomonia/08-02-12/font/menomonia.woff') format('woff'),
-         url('/fonts/menomonia/08-02-12/font/menomonia.ttf') format('truetype'),
-         url('/fonts/menomonia/08-02-12/font/menomonia.svg#MenomoniaRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+    src: url(https://d1h9a8s8eodvjz.cloudfront.net/fonts/menomonia/08-02-12/menomonia-italic.css);
 }
 
 
@@ -15,6 +9,7 @@ html {
 	overflow: hidden;
 	height: 100%;
 	width: 100%;
+	font-family: Trebuchet MS;
 	background: rgba(240, 200, 255, 0.0);
 }
 
@@ -70,7 +65,7 @@ html {
 	top: 1.5em; 
 	z-index: 99;
 	margin-left: 0; 
-	width: 150px;
+	width: 165px;
 	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
 	-webkit-border-radius: 5px; 
 	
@@ -80,15 +75,14 @@ html {
 	position: absolute; 
 	left: 0.5em; 
 	top: 1.5em; 
-	z-index: 99;
+	z-index: 10;
 	margin-left: 0; 
-	width: 150px;
+	width: 165px;
 	-webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
 	-webkit-border-radius: 5px; 
+
 	
 }
-
-.clientIDHidden
 
 .tooltip{
 	padding: 0.6em 0.8em;
@@ -97,22 +91,43 @@ html {
 .tooltip a{
 	text-decoration: none;
 	text-align: center;
+	padding: 1px 2px;
+	background-color: #F0F0F0;
+	color:  #2C2C2C;
+	margin: 1px;
+	margin-top: 3px;
+	clear: both;
+}
+
+.tooltip a:hover{
+	background-color: #D6D5D5;
+	
 }
 
 .wpTooltip{
-	background: #9FDAEE; 
-	border: 1px solid #2BB0D7;
+	background-color:#16161C;
+	color: #AAAAAA;
+	border-radius:3px;
+	border-color: #AAAAAA;
+	border-style: solid;
+	
+
 }
+
 
 .optionsButton{
 
 	padding: 5px 10px;
 	background-color: #F0F0F0;
-	color:  #AAAAAA;
+	color:  #2C2C2C;
 	margin: 3px;
 	text-decoration: none;
 	clear: both;
 	left: -17px;
+}
+
+.optionsButton:hover{
+	background-color: #D6D5D5;
 }
 
 #container{
@@ -130,14 +145,14 @@ html {
 
 #welcomeMessage{
 	position: absolute;
-	top: 100px;
-	left: 150px;
-	width: 400px;
+	top: 120px;
+	left: 75px;
+	width: 650px;
 	background-color:#16161C;
 	color: #AAAAAA;
 	border-radius: 3px;
 	clear: both;
-	 font-family: Menomonia;
+	 font-size: 18px;
 }
 
 #welcomeMessage h3{
@@ -151,10 +166,12 @@ html {
 	text-decoration: none;
 	background-color:#16161C;
 	color: #AAAAAA;
-	border-radius: 3px;
+	border-radius:3px;
+	border-color: #AAAAAA;
+	border-style: solid;
 	clear: both;
 	z-index: 10;
-	 font-family: Menomonia;
+	
 }
 
 #options{
@@ -162,10 +179,12 @@ html {
 }
 
 #header {
-	width: 675px;
+	font-family: Arial;
+	width: 750px;
 	text-align: center;
-	padding: 3px;
-	background: rgb(200, 54, 54);
+	padding: 1px;
+	font-size: 16px;
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 	background: rgba(0,0,0, 0.01);
 }
 
