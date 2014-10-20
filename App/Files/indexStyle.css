@@ -1,31 +1,41 @@
 ﻿html {
-	overflow: hidden;
-	height: 100%;
-	width: 100%;
-	background: rgba(240, 240, 240, 0.01);
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background: rgba(240, 240, 240, 0.01);
 }
-
-body{
-	height: 200px;
-	width: 200px;
+body {
+    height: 200px;
+    width: 200px;
 }
-
-#container{
-	margin-top: auto;
-	margin-bottom:auto;
-	padding-top: 50px;
+#container {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: 50px;
 }
-
-#buttons > a{
-	
-	padding: 5px 10px;
-	background-color: #F0F0F0;
-	color: #2C2C2C;
-	margin: 3px;
-	text-decoration: none;
-	clear: both;
+#optionsContainer {
+    width: 200px;
+    height: 70px;
+    position: absolute;
+    padding: 5px 10px;
+    margin: 3px;
+    text-decoration: none;
+    background-color: #16161C;
+    color: #AAAAAA;
+    border-radius: 3px;
+    border-color: #AAAAAA;
+    border-style: solid;
+    clear: both;
+    z-index: 10;
 }
-
-#buttons > a:hover{
-	background-color: #D6D5D5
+#buttons > a {
+    padding: 5px 10px;
+    background-color: #F0F0F0;
+    color: #2C2C2C;
+    margin: 3px;
+    text-decoration: none;
+    clear: both;
+}
+#buttons > a:hover {
+    background-color: #D6D5D5
 }

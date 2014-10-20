@@ -1,20 +1,24 @@
 ﻿<!DOCTYPE html>
-<html  onmousedown="dragMove();">
-	<head> 
-		<link rel="stylesheet" href="indexStyle.css" />
+<html onmousedown="dragMove();">
 
-		<script src = "http://code.jquery.com/jquery-2.1.0.min.js"></script>
-		<script src = "js/gw2_api.js"></script>
-		<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-		<title>WvW Overlay</title>
-	</head>
+<head>
+    <link rel="stylesheet" href="indexStyle.css" />
 
-	<body>
-		<div id="container">			
-			<div id = "worldChoice">
-				<select name = "world" id = "gw2_world_list"></select><br/><br/>
-			</div>
-			<!--<div id="worldSelector">
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="js/gw2_api.js"></script>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>WvW Overlay</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="optionsContainer">
+            <div id="worldChoice">
+                <select name="world" id="gw2_world_list"></select>
+                <br/>
+                <br/>
+            </div>
+            <!--<div id="worldSelector">
 				<select name="map" id="map_list">
 					<option selected disabled>Choose Map</option>
 					<option value="map_eternalbg">Eternal Battleground</option>
@@ -23,10 +27,12 @@
 					<option value="map_borderland_green">Green Borderlands</option>
 				</select>
 			</div><br/><br/>-->
-			<div id="buttons">
-				<a href = "#" onclick="selectWorld(); return false;">Select World</a>
-				<a href = "#" onclick="closeWindow(); return false;">Close</a>
-			</div>
-		</div>
-	</body>
+            <div id="buttons">
+                <a href="#" onclick="selectWorld(); return false;">Select World</a>
+                <a href="#" onclick="closeWindow(); return false;">Close</a>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>

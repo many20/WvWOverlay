@@ -1,33 +1,39 @@
 {
-	"manifest_version":1,
-	"type":"WebApp",
-	"meta":{
-		"name":"WvW Overlay",
-		"version":"1.0.0",
-		"minimum-overwolf-version":"0.77.10",
-		"author":"SirNikkolas",
-		"icon":"IconMouseOver.png",
-		"icon_gray":"IconMouseNormal.png",
-		"description":"WvW App"
-	},
-	"data": {
-		"start_window":"WvWMapWindow",
-		"windows":{
-			"ServerSelect":{
-					"file":"Files/index.html",
-					"transparent":true,
-					"resizable":false,
-					"size":{"width":200, "height":400}
-				},
-			
-			"WvWMapWindow":{
-					"file":"Files/WvWMapWindow.html",
-					"transparent":true,
-					"resizable":false,
-					"size":{"width":877, "height":999},
-					"in_game_only":false
-				}
-		}
+    "manifest_version": 1,
+    "type": "WebApp",
+    "meta": {
+        "name": "WvW Overlay",
+        "version": "1.0.0",
+        "minimum-overwolf-version": "0.77.10",
+        "author": "SirNikkolas",
+        "icon": "IconMouseOver.png",
+        "icon_gray": "IconMouseNormal.png",
+        "description": "WvW App"
+    },
+    "data": {
+        "start_window": "WvWMapWindow",
+        "windows": {
+            "ServerSelect": {
+                "file": "Files/index.html",
+                "transparent": true,
+                "resizable": false,
+                "size": {
+                    "width": 250,
+                    "height": 400
+                }
+            },
 
-	}
+            "WvWMapWindow": {
+                "file": "Files/WvWMapWindow.html",
+                "transparent": true,
+                "resizable": false,
+                "size": {
+                    "width": 877,
+                    "height": 999
+                },
+                "in_game_only": false
+            }
+        }
+
+    }
 }
